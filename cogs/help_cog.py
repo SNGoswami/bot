@@ -21,8 +21,9 @@ class HelpCog(commands.Cog):
                 "1. `/learn start` — begin the 8-lesson onboarding track\n"
                 "2. `/where lighthouse` — find UI + backend paths for a feature\n"
                 "3. `/trace lighthouse-submit` — walk through a request end-to-end\n"
-                "4. `/quiz` — test your knowledge\n\n"
-                "**All sections:** `/help learn` · `/help lookup` · `/help trace` · `/help quiz`\n"
+                "4. `/ask <question>` — free-form questions (Gemini + knowledge base)\n"
+                "5. `/quiz` — test your knowledge\n\n"
+                "**All sections:** `/help learn` · `/help lookup` · `/help trace` · `/help ask` · `/help quiz`\n"
                 "**Progress:** `/learn progress` · **Jump to topic:** `/topic database`"
             ),
         ),
@@ -63,6 +64,22 @@ class HelpCog(commands.Cog):
                 "Use **Previous** / **Next** buttons to navigate steps."
             ),
         ),
+        "ask": (
+            "Ask command (LLM)",
+            (
+                "`/ask <question>` — Natural-language questions about the codebase\n\n"
+                "**How it works**\n"
+                "1. Keyword search over `knowledge/` (lessons, lookups, traces)\n"
+                "2. Top snippets sent to **Claude** with strict grounding rules\n"
+                "3. Answer cites paths from context only\n\n"
+                "**Examples**\n"
+                "• `How does JWT auth work in ESG Saathi?`\n"
+                "• `Where is Lighthouse scoring implemented?`\n"
+                "• `How are clients linked to BRSR assessments?`\n\n"
+                "**Setup:** set `ANTHROPIC_API_KEY` in `.env` (optional `ANTHROPIC_MODEL`)\n\n"
+                "For exact facts, prefer `/where`, `/schema`, `/trace` — they are rule-based and always accurate."
+            ),
+        ),
         "quiz": (
             "Quiz command",
             (
@@ -77,7 +94,7 @@ class HelpCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="help", description="Guide to Saathi Mentor commands and learning paths")
-    @app_commands.describe(section="Optional: overview, learn, lookup, trace, quiz")
+    @app_commands.describe(section="Optional: overview, learn, lookup, trace, ask, quiz")
     async def help_command(
         self,
         interaction: discord.Interaction,

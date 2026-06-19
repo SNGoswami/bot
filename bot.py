@@ -6,6 +6,9 @@ import os
 
 import discord
 from discord.ext import commands
+from dotenv import load_dotenv
+
+load_dotenv()
 
 COGS = [
     "cogs.help_cog",
@@ -13,6 +16,7 @@ COGS = [
     "cogs.lookup_cog",
     "cogs.trace_cog",
     "cogs.quiz_cog",
+    "cogs.ask_cog",
 ]
 
 intents = discord.Intents.default()
