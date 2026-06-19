@@ -1,0 +1,45 @@
+linkages:
+  - from: users
+    to: msme_profiles
+    relationship: "1:0..1 — MSME users have one MSME profile"
+    via: msme_profiles.user_id
+
+  - from: users
+    to: clients
+    relationship: "1:N — professional user owns many clients"
+    via: clients.user_id
+
+  - from: clients
+    to: brsr_assessments
+    relationship: "1:N — assessments per fiscal year"
+    via: brsr_assessments.client_id
+
+  - from: clients
+    to: lighthouse_assessments
+    relationship: "1:0..1 active — advisor assigns Lighthouse to client"
+    via: lighthouse_assessments.client_id
+
+  - from: msme_profiles
+    to: lighthouse_assessments
+    relationship: "1:N — MSME self-serve assessments"
+    via: lighthouse_assessments.msme_profile_id
+
+  - from: clients
+    to: workforce_reports
+    relationship: "1:N — disclosure reports per fiscal year"
+    via: workforce_reports.client_id
+
+  - from: brsr_assessments
+    to: workforce_reports
+    relationship: "1:N optional — report may link to BRSR"
+    via: workforce_reports.brsr_assessment_id
+
+  - from: clients
+    to: scope3_calculations
+    relationship: "1:N — calculations per category/year"
+    via: scope3_calculations.client_id
+
+  - from: client
+    to: ca_profiles
+    relationship: "Each client managed by exactly one professional profile type"
+    via: clients.ca_profile_id | cs_profile_id | esg_consultant_profile_id | assurer_auditor_profile_id

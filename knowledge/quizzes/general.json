@@ -1,0 +1,72 @@
+{
+  "questions": [
+    {
+      "question": "Which port does the Spring Boot API use locally?",
+      "options": ["3000", "8080", "5432", "6379"],
+      "answer": 1,
+      "explanation": "Spring runs on 8080 by default; Next.js UI is on 3000."
+    },
+    {
+      "question": "Where must all UI → Spring HTTP calls go through?",
+      "options": [
+        "modules/platform/api/client.ts (apiFetch)",
+        "app/page.tsx",
+        "components/Hero.tsx",
+        "proxy.ts only"
+      ],
+      "answer": 0,
+      "explanation": "apiFetch → sessionFetch is the unified client stack."
+    },
+    {
+      "question": "What stores revoked JWTs after logout?",
+      "options": ["PostgreSQL", "Redis blacklist", "localStorage", "Sanity CMS"],
+      "answer": 1,
+      "explanation": "JwtAuthFilter checks Redis for blacklisted JTIs."
+    },
+    {
+      "question": "Lighthouse MSME assessments link via which FK?",
+      "options": ["client_id only", "msme_profile_id", "brsr_assessment_id", "user_id directly"],
+      "answer": 1,
+      "explanation": "MSME flow uses msme_profile_id; advisor flow uses client_id."
+    },
+    {
+      "question": "Who owns a `clients` row?",
+      "options": [
+        "Any MSME user",
+        "The professional user (CA/CS/consultant/auditor)",
+        "Admin only",
+        "Supabase auth"
+      ],
+      "answer": 1,
+      "explanation": "clients.user_id is the logged-in professional who manages the portfolio."
+    },
+    {
+      "question": "Hibernate ddl-auto is set to?",
+      "options": ["create-drop", "update", "validate", "none"],
+      "answer": 2,
+      "explanation": "Schema must match entities; SQL migrations are run manually."
+    },
+    {
+      "question": "Dashboard feature views are registered in?",
+      "options": [
+        "viewRegistry.tsx",
+        "layout.tsx",
+        "next.config.ts",
+        "AuthContext.tsx"
+      ],
+      "answer": 0,
+      "explanation": "viewRegistry maps ?view= keys to lazy-loaded views."
+    },
+    {
+      "question": "Which service scores Lighthouse assessments?",
+      "options": [
+        "Resend email",
+        "LighthouseGeminiService",
+        "DiscordWebhookClient",
+        "Scope3EngineFactory"
+      ],
+      "answer": 1,
+      "explanation": "Gemini generates pillar scores and narrative feedback."
+    }
+  ]
+}

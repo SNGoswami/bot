@@ -1,0 +1,66 @@
+endpoints:
+  "/api/auth/me":
+    method: GET
+    auth: Authenticated
+    controller: AuthCheckController
+    description: Current user summary (id, email, name, role).
+
+  "/api/auth/verify-login":
+    method: POST
+    auth: Public
+    controller: AuthController
+    description: Verify OTP login; sets HttpOnly JWT cookie.
+
+  "/api/auth/refresh":
+    method: POST
+    auth: Authenticated
+    controller: AuthController
+    description: Rotate JWT; new cookie.
+
+  "/api/lighthouse/me":
+    method: GET
+    auth: MSME
+    controller: LighthouseAssessmentController
+    description: Latest assessment or 204 if none.
+
+  "/api/lighthouse/submit":
+    method: POST
+    auth: MSME
+    controller: LighthouseAssessmentController
+    description: Submit answers; Gemini scores; returns report JSON.
+
+  "/api/brsr":
+    method: GET
+    auth: Authenticated
+    controller: BrsrAssessmentController
+    description: List BRSR assessments for current user.
+
+  "/api/brsr":
+    method: POST
+    auth: Authenticated
+    controller: BrsrAssessmentController
+    description: Create or resume assessment for clientId + fiscalYear.
+
+  "/api/clients":
+    method: GET
+    auth: Authenticated
+    controller: ClientController
+    description: Paginated client list for professional user.
+
+  "/api/scope3/save":
+    method: POST
+    auth: Authenticated
+    controller: Scope3Controller
+    description: Save Scope 3 calculation.
+
+  "/api/ai-advisor/chat":
+    method: POST
+    auth: Authenticated
+    controller: AiAdvisorController
+    description: Send message to Gemini advisor; quota enforced.
+
+  "/api/workforce/save":
+    method: POST
+    auth: Authenticated
+    controller: WorkforceController
+    description: Save workforce disclosure report.

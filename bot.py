@@ -1,18 +1,45 @@
-import discord, os
+"""ESG Saathi Mentor — Discord KT bot for architecture, infra, schema, and code paths."""
+
+from __future__ import annotations
+
+import os
+
+import discord
+from discord.ext import commands
+
+COGS = [
+    "cogs.help_cog",
+    "cogs.learn_cog",
+    "cogs.lookup_cog",
+    "cogs.trace_cog",
+    "cogs.quiz_cog",
+]
 
 intents = discord.Intents.default()
 intents.message_content = True
-client = discord.Client(intents=intents)
 
-@client.event
-async def on_ready():
-    print(f"Logged in as {client.user}")
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if message.content == "!ping":
-        await message.channel.send("Pong! 🏓")
+class SaathiMentorBot(commands.Bot):
+    def __init__(self) -> None:
+        super().__init__(command_prefix="!", intents=intents)
 
-client.run(os.environ["DISCORD_TOKEN"])
+    async def setup_hook(self) -> None:
+        for cog in COGS:
+            await self.load_extension(cog)
+
+    async def on_ready(self) -> None:
+        synced = await self.tree.sync()
+        print(f"Saathi Mentor logged in as {self.user} (id={self.user.id})")
+        print(f"Synced {len(synced)} slash command(s)")
+
+
+def main() -> None:
+    token = os.environ.get("DISCORD_TOKEN")
+    if not token:
+        raise SystemExit("DISCORD_TOKEN environment variable is required")
+    bot = SaathiMentorBot()
+    bot.run(token)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,95 @@
+tables:
+  users:
+    description: Central user identity and role.
+    columns:
+      - id UUID PK
+      - auth_user_id UUID — optional Supabase auth link
+      - email, first_name, last_name
+      - role user_role enum (MSME, CA, CS, …)
+      - password_hash — nullable for OTP-only users
+    references: []
+
+  clients:
+    description: Company record owned by a professional user.
+    columns:
+      - id UUID PK
+      - user_id → users
+      - ca_profile_id | cs_profile_id | esg_consultant_profile_id | assurer_auditor_profile_id (exactly one)
+      - company_name, cin, gst_number, sector, …
+      - is_deleted soft delete
+    references:
+      - users
+      - ca_profiles / cs_profiles / esg_consultant_profiles / assurer_auditor_profiles
+
+  lighthouse_assessments:
+    description: Lighthouse ESG assessment report.
+    columns:
+      - id UUID PK
+      - msme_profile_id → msme_profiles (MSME flow, nullable)
+      - client_id → clients (advisor flow, nullable)
+      - pillar scores, KPI answers JSON
+      - is_deleted
+    references:
+      - msme_profiles
+      - clients
+
+  brsr_assessments:
+    description: BRSR assessment per client and fiscal year.
+    columns:
+      - id UUID PK
+      - client_id → clients
+      - fiscal_year, status, completion_pct
+      - e_score, s_score, g_score, total_score
+    references:
+      - clients
+
+  workforce_reports:
+    description: Workforce / social disclosure KPIs.
+    columns:
+      - id UUID PK
+      - user_id → users
+      - client_id → clients
+      - brsr_assessment_id → brsr_assessments (optional)
+      - fiscal_year, headcount fields, kpi_s01…kpi_s09
+    references:
+      - users
+      - clients
+      - brsr_assessments
+
+  governance_reports:
+    description: Governance disclosure and policy matrix.
+    columns:
+      - id UUID PK
+      - user_id, client_id, brsr_assessment_id, fiscal_year
+    references:
+      - users
+      - clients
+      - brsr_assessments
+
+  stakeholder_hr_reports:
+    description: Stakeholder and HR disclosure.
+    columns:
+      - id UUID PK
+      - user_id, client_id, brsr_assessment_id, fiscal_year
+    references:
+      - users
+      - clients
+      - brsr_assessments
+
+  scope3_calculations:
+    description: Scope 3 GHG calculation runs per client/category.
+    columns:
+      - id UUID PK
+      - user_id, client_id, category, fiscal_year, emissions
+    references:
+      - users
+      - clients
+
+  msme_profiles:
+    description: MSME role profile (1:1 with MSME user).
+    columns:
+      - id UUID PK
+      - user_id → users
+      - company details for self-serve MSME
+    references:
+      - users

@@ -1,0 +1,28 @@
+name: OTP login
+id: login-otp
+description: User logs in with email OTP; JWT cookie set.
+roles:
+  - all
+tables:
+  - users
+steps:
+  - layer: UI
+    title: Login screen
+    file: esg-saathi-ui/modules/auth-ui/components/login/OtpOnlyLogin.tsx
+    action: User enters email → POST /api/auth/login
+  - layer: UI
+    title: OTP verify
+    file: esg-saathi-ui/modules/auth-ui/components/login/OtpOnlyLogin.tsx
+    action: User enters OTP → POST /api/auth/verify-login
+  - layer: Spring
+    title: Auth controller
+    file: saathi/.../auth/controller/AuthController.java
+    action: Validates OTP; issues JWT; Set-Cookie HttpOnly
+  - layer: Redis
+    title: Session support
+    file: saathi/.../auth/
+    action: OTP validation; optional user cache warming
+  - layer: UI
+    title: Auth context
+    file: esg-saathi-ui/modules/platform/auth/AuthContext.tsx
+    action: GET /api/auth/me → stores user; redirects to dashboard

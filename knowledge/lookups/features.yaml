@@ -1,0 +1,142 @@
+features:
+  lighthouse:
+    name: Lighthouse
+    description: MSME ESG readiness assessment with Gemini scoring.
+    ui:
+      - esg-saathi-ui/modules/lighthouse/ui/
+      - esg-saathi-ui/modules/lighthouse/api/lighthouseApi.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/lighthouse/controller/
+      - saathi/src/main/java/com/esg/saathi/module/lighthouse/service/
+      - saathi/src/main/java/com/esg/saathi/module/lighthouse/scoring/LighthouseGeminiService.java
+    api: /api/lighthouse/*
+    tables:
+      - lighthouse_assessments
+
+  brsr:
+    name: BRSR
+    description: BRSR assessments for professional roles, per client.
+    ui:
+      - esg-saathi-ui/modules/brsr/ui/
+      - esg-saathi-ui/modules/brsr/api/brsrApi.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/brsr/
+    api: /api/brsr/*
+    tables:
+      - brsr_assessments
+
+  clients:
+    name: Clients
+    description: Professional client portfolio (CA, CS, consultant, auditor).
+    ui:
+      - esg-saathi-ui/modules/clients/ui/
+      - esg-saathi-ui/modules/clients/api/clientsApi.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/client/
+    api: /api/clients/*
+    tables:
+      - clients
+
+  scope3:
+    name: Scope 3 GHG
+    description: Scope 3 emission calculators by category.
+    ui:
+      - esg-saathi-ui/modules/scope3-ghg/ui/
+      - esg-saathi-ui/modules/scope3-ghg/api/scope3Api.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/scope3/
+    api: /api/scope3/*
+    tables:
+      - scope3_calculations
+
+  workforce:
+    name: Workforce
+    description: Workforce / social disclosure KPI reports.
+    ui:
+      - esg-saathi-ui/modules/workforce/ui/
+      - esg-saathi-ui/modules/workforce/api/workforceApi.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/workforce/
+    api: /api/workforce/*
+    tables:
+      - workforce_reports
+
+  governance:
+    name: Governance
+    description: Governance disclosure reports and policy matrix.
+    ui:
+      - esg-saathi-ui/modules/governance/ui/
+      - esg-saathi-ui/modules/governance/api/governanceApi.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/governance/
+    api: /api/governance/*
+    tables:
+      - governance_reports
+
+  stakeholder-hr:
+    name: Stakeholder HR
+    description: Stakeholder and HR disclosure reports.
+    ui:
+      - esg-saathi-ui/modules/stakeholder-hr/ui/
+      - esg-saathi-ui/modules/stakeholder-hr/api/stakeholderHrApi.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/stakeholderhr/
+    api: /api/stakeholder-hr/*
+    tables:
+      - stakeholder_hr_reports
+
+  ai-advisor:
+    name: AI Advisor
+    description: Gemini-powered ESG Q&A with daily quota.
+    ui:
+      - esg-saathi-ui/modules/ai-advisor/ui/
+      - esg-saathi-ui/modules/ai-advisor/api/aiAdvisorApi.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/aiadvisor/
+    api: /api/ai-advisor/*
+    tables: []
+
+  auth:
+    name: Auth
+    description: JWT session, OTP login, registration, refresh.
+    ui:
+      - esg-saathi-ui/modules/platform/auth/
+      - esg-saathi-ui/modules/auth-ui/
+      - esg-saathi-ui/proxy.ts
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/auth/
+    api: /api/auth/*
+    tables:
+      - users
+
+  dashboard:
+    name: Dashboard
+    description: Shell, nav, view registry, role-based widgets.
+    ui:
+      - esg-saathi-ui/modules/dashboard/shell/
+      - esg-saathi-ui/modules/dashboard/registry/viewRegistry.tsx
+      - esg-saathi-ui/modules/dashboard/nav/dashboardNav.ts
+    backend: []
+    api: null
+    tables: []
+
+  admin:
+    name: Admin
+    description: User management, analytics, contact inbox.
+    ui:
+      - esg-saathi-ui/modules/admin/
+    backend:
+      - saathi/src/main/java/com/esg/saathi/module/admin/
+    api: /api/admin/*
+    tables: []
+
+  platform:
+    name: Platform (UI)
+    description: Shared HTTP client, RBAC roles, session fetch.
+    ui:
+      - esg-saathi-ui/modules/platform/api/client.ts
+      - esg-saathi-ui/modules/platform/api/sessionFetch.ts
+      - esg-saathi-ui/modules/platform/rbac/roles.ts
+    backend: []
+    api: null
+    tables: []

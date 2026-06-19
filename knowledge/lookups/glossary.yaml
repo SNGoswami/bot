@@ -1,0 +1,24 @@
+terms:
+  BRSR:
+    definition: Business Responsibility and Sustainability Reporting — SEBI framework for Indian listed companies; ESGSaathi helps professionals track client BRSR readiness.
+
+  Lighthouse:
+    definition: ESGSaathi's MSME ESG readiness assessment with AI-generated pillar scores and improvement areas.
+
+  Scope 3:
+    definition: Indirect GHG emissions in a company's value chain (categories 1–15); calculated in the Scope 3 module.
+
+  BFF:
+    definition: Backend-for-Frontend — Next.js `app/api/*` routes that proxy or write to Supabase without exposing keys to the browser.
+
+  apiFetch:
+    definition: UI wrapper in `modules/platform/api/client.ts` — JSON parsing, error handling, 204 support, built on sessionFetch.
+
+  viewRegistry:
+    definition: Maps dashboard `?view=` keys to lazy-loaded feature views in `viewRegistry.tsx`.
+
+  ddl-auto validate:
+    definition: Hibernate checks DB schema matches entities at startup; does not auto-migrate. SQL scripts in `saathi/src/main/resources/db/` are run manually.
+
+  JTI blacklist:
+    definition: Redis set of revoked JWT IDs; checked on every request after logout.

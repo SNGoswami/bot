@@ -1,0 +1,32 @@
+name: Lighthouse assessment submit
+id: lighthouse-submit
+description: MSME submits Lighthouse answers; Gemini scores; report saved.
+roles:
+  - MSME
+tables:
+  - lighthouse_assessments
+steps:
+  - layer: UI
+    title: Assessment form
+    file: esg-saathi-ui/modules/lighthouse/ui/LighthouseAssessmentView.tsx
+    action: User completes KPI scores → calls lighthouseApi.submit()
+  - layer: API client
+    title: HTTP client
+    file: esg-saathi-ui/modules/lighthouse/api/lighthouseApi.ts
+    action: POST /api/lighthouse/submit with credentials include
+  - layer: Edge
+    title: Session
+    file: esg-saathi-ui/modules/platform/api/sessionFetch.ts
+    action: Attaches JWT cookie; on 401 tries refresh once
+  - layer: Spring
+    title: Controller
+    file: saathi/.../lighthouse/controller/LighthouseAssessmentController.java
+    action: "@PreAuthorize MSME → LighthouseAssessmentService.submit()"
+  - layer: AI
+    title: Gemini scoring
+    file: saathi/.../lighthouse/scoring/LighthouseGeminiService.java
+    action: Scores pillars (env, social, gov); strengths & improvements
+  - layer: DB
+    title: Persistence
+    file: saathi/.../lighthouse/entity/LighthouseAssessment.java
+    action: INSERT/UPDATE lighthouse_assessments (msme_profile_id)

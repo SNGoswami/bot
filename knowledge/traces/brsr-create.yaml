@@ -1,0 +1,32 @@
+name: Create BRSR assessment
+id: brsr-create
+description: Professional creates or resumes a BRSR assessment for a client.
+roles:
+  - CA
+  - CS
+  - ESG_CONSULTANT
+  - ASSURER_AUDITOR
+tables:
+  - brsr_assessments
+  - clients
+steps:
+  - layer: UI
+    title: BRSR workspace
+    file: esg-saathi-ui/modules/brsr/ui/BrsrWorkspaceView.tsx
+    action: User picks client + fiscal year → brsrApi.create()
+  - layer: API client
+    title: HTTP client
+    file: esg-saathi-ui/modules/brsr/api/brsrApi.ts
+    action: POST /api/brsr { clientId, fiscalYear }
+  - layer: Spring
+    title: Controller
+    file: saathi/.../brsr/controller/BrsrAssessmentController.java
+    action: Validates client ownership → create or resume assessment
+  - layer: DB
+    title: Persistence
+    file: saathi/.../brsr/entity/BrsrAssessment.java
+    action: INSERT brsr_assessments linked to client_id
+  - layer: UI
+    title: Assessment view
+    file: esg-saathi-ui/modules/brsr/ui/BrsrAssessmentView.tsx
+    action: Loads assessment; tracks completion % and E/S/G scores
