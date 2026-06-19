@@ -7,7 +7,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from utils.embeds import mentor_embed, truncate, ERROR_COLOR
-from utils.llm import ask_mentor
+from utils.llm import AnthropicAPIError, ask_mentor
 from utils.retriever import format_context, retrieve
 
 
@@ -46,11 +46,34 @@ class AskCog(commands.Cog):
                 ephemeral=True,
             )
             return
-        except Exception as exc:
+        except AnthropicAPIError as exc:
+            detail = str(exc).replace("`", "'")
             await interaction.followup.send(
                 embed=mentor_embed(
                     title="Could not get an answer",
-                    description=f"Claude request failed: `{exc}`\n\nTry `/where`, `/schema`, or `/trace` instead.",
+                    description=(
+                        f"{detail}\n\n"
+                        "Check Railway/host env vars:\n"
+                        "• `ANTHROPIC_API_KEY` (starts with sk-ant-)\n"
+                        "• `ANTHROPIC_MODEL` (try `claude-3-5-sonnet-20241022`)\n\n"
+                        "Try `/where`, `/schema`, or `/trace` instead."
+                    ),
+                    color=ERROR_COLOR,
+                ),
+                ephemeral=True,
+            )
+            return
+        except Exception as exc:
+            detail = str(exc).replace("`", "'")
+            await interaction.followup.send(
+                embed=mentor_embed(
+                    title="Could not get an answer",
+                    description=(
+                        f"Claude request failed:\n{detail}\n\n"
+                        "Check `ANTHROPIC_API_KEY` and `ANTHROPIC_MODEL` "
+                        "(try `claude-sonnet-4-6`).\n\n"
+                        "Try `/where`, `/schema`, or `/trace` instead."
+                    ),
                     color=ERROR_COLOR,
                 ),
                 ephemeral=True,
